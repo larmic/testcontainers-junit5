@@ -1,9 +1,10 @@
-package de.larmic.springbootelasticsearchoverhttp
+package de.larmic.testcontainers.elasticsearch
 
-import de.larmic.springbootelasticsearchoverhttp.TweetDocument.Companion.documentIndex
-import de.larmic.springbootelasticsearchoverhttp.TweetDocument.Companion.documentType
+import de.larmic.testcontainers.elasticsearch.TweetDocument.Companion.documentIndex
+import de.larmic.testcontainers.elasticsearch.TweetDocument.Companion.documentType
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest
+import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
 import org.springframework.boot.CommandLineRunner
 import org.springframework.core.env.Environment
@@ -27,11 +28,11 @@ class ElasticsearchIndexInitializer(private val restHighLevelClient: RestHighLev
             val createIndexRequest = CreateIndexRequest(index)
             // mapping will be created automatically with first document index
             //createIndexRequest.mapping(type, "message", "type=text")
-            restHighLevelClient.indices().create(createIndexRequest)
+            restHighLevelClient.indices().create(createIndexRequest, RequestOptions.DEFAULT)
         }
     }
 
-    private fun indexDoesNotExists(index: String, type: String) = !restHighLevelClient.indices().exists(createGetIndexRequest(index, type))
+    private fun indexDoesNotExists(index: String, type: String) = !restHighLevelClient.indices().exists(createGetIndexRequest(index, type), RequestOptions.DEFAULT)
 
     private fun createGetIndexRequest(index: String, type: String): GetIndexRequest {
         val getIndexRequest = GetIndexRequest()

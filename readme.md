@@ -1,65 +1,52 @@
-# Using Elasticsearch 6.3.1 over HTTP with Spring Boot 2.1.M1 and Kotlin 1.2.60
+# Integration testing with Spring Boot, Elasticsearch, Testcontainers and JUnit5
 
-With Spring Boot 2.1.0.M1 [RestHighLevelClient](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
-is injectable. When using [Amazon Elasticsearch Service](https://aws.amazon.com/de/elasticsearch-service/) only http port
-is available so Spring Data does not work as default. This demo shows how http connection could work with latest
-Spring Boot milestone.
+Simple example demonstrating how testcontainers and JuUnit 5 can play together.
+
+## Used technologies
+
+* Spring Boot 2.1.3.RELEASE
+* Kotlin 1.3.21
+* Elasticsearch 6.6.1 with [RestHighLevelClient](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
+* Testcontainers 1.10.6
+* JUnit 5.4.0
 
 ## Requirements
 
-* Java 1.8
+* Java 11
 * Maven >= 3.2.1 (Kotlin comes as a maven dependency)
 * Docker >= 3.0 (for integration tests)
 
-## Local testing
-
 ##### Clone repository and build project
 
+In phase verify integration test ```TweetControllerIT``` will be startet.
+
 ```ssh
-git clone https://github.com/larmic/spring-boot-elasticsearch-over-http
-mvn clean package
+git clone https://github.com/larmic/testcontainers-junit5
+mvn clean verify
 ```
 
-##### Start local Elasticsearch
+##### Local testing
 
 ```ssh
-docker run -d -p 9200:9200 -p 9300:9300 --name spring-boot-elastic-over-http -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "cluster.name=elasticsearch" docker.elastic.co/elasticsearch/elasticsearch:6.3.2
-```
+# start local elasticsearch
+docker run -d -p 9200:9200 -p 9300:9300 --name testcontainers-junit5-demo -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "cluster.name=elasticsearch" docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.1
 
-##### Start application
-
-```ssh
+# start application
 mvn spring-boot:run
-```
 
-##### HTTP request examples
-
-###### Get all tweets
-
-```ssh
+# HTTP request examples
+# Get all tweets
 curl -i -H "Accept: application/json" --request GET http://localhost:8080/
-```
 
-###### Post a new tweet
+# Post a new tweet
+curl -i -H "Content-Type: application/json" --request POST --data 'hello, this is a tweet!' http://localhost:8080/
 
-```ssh
-curl -i -H "Content-Type: application/json" --request POST --data 'hello, this is a tweet!' http://localhost:8080/      
-```
-
-###### Read a specific tweet
-
-```ssh
+# Read a specific tweet     
 curl -i -H "Accept: application/json" --request GET http://localhost:8080/{tweet-id}      
-```
+ 
+# Delete a specific tweet
+curl -i -H "Accept: application/json" --request DELETE http://localhost:8080/{tweet-id}
 
-###### Delete a specific tweet
-
-```ssh
-curl -i -H "Accept: application/json" --request DELETE http://localhost:8080/{tweet-id}      
-```
-
-###### Update a specific tweet
-
-```ssh
-curl -i -H "Content-Type: application/json" "Accept: application/json" --request PUT --data 'hello, this is a changed tweet!' http://localhost:8080/{tweet-id}      
+# Update a specific tweet    
+curl -i -H "Content-Type: application/json" "Accept: application/json" --request PUT --data 'hello, this is a changed tweet!' http://localhost:8080/{tweet-id}        
 ```

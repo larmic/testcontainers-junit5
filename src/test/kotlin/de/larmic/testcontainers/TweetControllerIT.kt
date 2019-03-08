@@ -1,17 +1,17 @@
-package de.larmic.springbootelasticsearchoverhttp
+package de.larmic.testcontainers
 
-import de.larmic.springbootelasticsearchoverhttp.TweetDocument.Companion.documentIndex
-import de.larmic.springbootelasticsearchoverhttp.TweetDocument.Companion.documentType
+import de.larmic.testcontainers.elasticsearch.TweetRepository
+import de.larmic.testcontainers.rest.Tweet
+import de.larmic.testing.ElasticsearchContextInitializer
+import de.larmic.testing.createIndex
+import de.larmic.testing.deleteIndexIfExists
+import de.larmic.testing.refreshIndex
 import org.assertj.core.api.Assertions.assertThat
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest
-import org.elasticsearch.action.admin.indices.get.GetIndexRequest
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.rest.RestStatus
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -20,15 +20,13 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-
-
-
-
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("it")
+@ContextConfiguration(initializers = [ElasticsearchContextInitializer::class])
 class TweetControllerIT {
 
     @Autowired
@@ -40,7 +38,7 @@ class TweetControllerIT {
     @Autowired
     private lateinit var tweetRepository: TweetRepository
 
-    @Before
+    @BeforeEach
     fun setUp() {
         restHighLevelClient.deleteIndexIfExists().createIndex()
     }
@@ -135,33 +133,5 @@ class TweetControllerIT {
         val response = testRestTemplate.exchange("/not-existing", HttpMethod.PUT, HttpEntity("tweet changed"), RestStatus::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response.body!!).isEqualTo(RestStatus.NOT_FOUND)
-    }
-
-    private fun RestHighLevelClient.refreshIndex() : RestHighLevelClient {
-        val request = RefreshRequest(documentIndex)
-        this.indices().refresh(request)
-        return this
-    }
-
-    private fun RestHighLevelClient.deleteIndexIfExists() : RestHighLevelClient {
-        if (indexExists(documentIndex, documentType)) {
-            this.indices().delete(DeleteIndexRequest(documentIndex))
-        }
-        return this
-    }
-
-    private fun RestHighLevelClient.createIndex(): RestHighLevelClient {
-        val createIndexRequest = CreateIndexRequest(documentIndex)
-        this.indices().create(createIndexRequest)
-        return this
-    }
-
-    private fun indexExists(index: String, type: String) = restHighLevelClient.indices().exists(createGetIndexRequest(index, type))
-
-    private fun createGetIndexRequest(index: String, type: String): GetIndexRequest {
-        val getIndexRequest = GetIndexRequest()
-        getIndexRequest.indices(index)
-        getIndexRequest.types(type)
-        return getIndexRequest
     }
 }

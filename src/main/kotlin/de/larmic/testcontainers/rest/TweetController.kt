@@ -1,5 +1,6 @@
-package de.larmic.springbootelasticsearchoverhttp
+package de.larmic.testcontainers.rest
 
+import de.larmic.testcontainers.elasticsearch.TweetRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

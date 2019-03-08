@@ -16,10 +16,10 @@ import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.common.xcontent.XContentType
 import org.elasticsearch.rest.RestStatus
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Repository
 import java.util.*
 
-@Service
+@Repository
 class TweetRepository(private val restHighLevelClient: RestHighLevelClient) {
 
     private val mapper = ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).registerModule(KotlinModule())

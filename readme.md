@@ -13,12 +13,12 @@ Simple example demonstrating how testcontainers and JuUnit 5 can play together.
 ## Requirements
 
 * Java 11
-* Maven >= 3.2.1 (Kotlin comes as a maven dependency)
+* Maven >= 3.2.1 (Kotlin comes as maven dependency)
 * Docker >= 3.0 (for integration tests)
 
 ##### Clone repository and build project
 
-In phase verify integration test ```TweetControllerIT``` will be startet.
+Integration test ```TweetControllerIT``` will be startet in maven phase ```verify```.
 
 ```ssh
 git clone https://github.com/larmic/testcontainers-junit5

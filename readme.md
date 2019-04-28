@@ -1,5 +1,7 @@
 # Integration testing with Spring Boot, Elasticsearch, Testcontainers and JUnit5
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 Simple example demonstrating how testcontainers, Elasticsearch and JUnit 5 can play together.
 
 ## Used technologies

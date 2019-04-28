@@ -5,6 +5,3 @@ jdk:
 
 services:
   - docker
-
-after_success:
-  - mvn clean --quiet cobertura:cobertura coveralls:report

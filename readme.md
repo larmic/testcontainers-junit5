@@ -4,11 +4,11 @@ Simple example demonstrating how testcontainers and JuUnit 5 can play together.
 
 ## Used technologies
 
-* Spring Boot 2.1.3.RELEASE
-* Kotlin 1.3.21
+* Spring Boot 2.1.4.RELEASE
+* Kotlin 1.3.31
 * Elasticsearch 6.6.1 with [RestHighLevelClient](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
-* Testcontainers 1.10.6
-* JUnit 5.4.0
+* Testcontainers 1.11.2
+* JUnit 5.4.2
 
 ## Requirements
 

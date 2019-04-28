@@ -1,12 +1,12 @@
 # Integration testing with Spring Boot, Elasticsearch, Testcontainers and JUnit5
 
-Simple example demonstrating how testcontainers and JuUnit 5 can play together.
+Simple example demonstrating how testcontainers, Elasticsearch and JUnit 5 can play together.
 
 ## Used technologies
 
 * Spring Boot 2.1.4.RELEASE
 * Kotlin 1.3.31
-* Elasticsearch 6.6.1 with [RestHighLevelClient](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
+* Elasticsearch 7.0.0 with [RestHighLevelClient](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
 * Testcontainers 1.11.2
 * JUnit 5.4.2
 
@@ -18,7 +18,7 @@ Simple example demonstrating how testcontainers and JuUnit 5 can play together.
 
 ##### Clone repository and build project
 
-Integration test ```TweetControllerIT``` will be startet in maven phase ```verify```.
+Integration test ```TweetControllerIT``` will be started in maven phase ```verify```.
 
 ```ssh
 git clone https://github.com/larmic/testcontainers-junit5
@@ -29,7 +29,7 @@ mvn clean verify
 
 ```ssh
 # start local elasticsearch
-docker run -d -p 9200:9200 -p 9300:9300 --name testcontainers-junit5-demo -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "cluster.name=elasticsearch" docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.1
+docker run -d -p 9200:9200 -p 9300:9300 --name testcontainers-junit5-demo -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "cluster.name=elasticsearch" docker.elastic.co/elasticsearch/elasticsearch-oss:7.0.0
 
 # start application
 mvn spring-boot:run

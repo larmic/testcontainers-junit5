@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import de.larmic.testcontainers.elasticsearch.TweetDocument.Companion.documentIndex
-import de.larmic.testcontainers.elasticsearch.TweetDocument.Companion.documentType
 import de.larmic.testcontainers.rest.Tweet
 import org.elasticsearch.action.delete.DeleteRequest
 import org.elasticsearch.action.get.GetRequest
@@ -27,13 +26,13 @@ class TweetRepository(private val restHighLevelClient: RestHighLevelClient) {
     fun storeTweet(tweet: String): String {
         val document = TweetDocument(tweet)
         val writeValueAsString = mapper.writeValueAsString(document)
-        val request = IndexRequest(TweetDocument.documentIndex, TweetDocument.documentType)
+        val request = IndexRequest(documentIndex)
         request.source(writeValueAsString, XContentType.JSON)
         return restHighLevelClient.index(request, RequestOptions.DEFAULT).id
     }
 
     fun getTweet(id: String): Tweet? {
-        val getRequest = GetRequest(TweetDocument.documentIndex, TweetDocument.documentType, id)
+        val getRequest = GetRequest(documentIndex, id)
         val getResponse = restHighLevelClient.get(getRequest, RequestOptions.DEFAULT)
         return when (getResponse.isExists) {
             true -> {
@@ -47,8 +46,7 @@ class TweetRepository(private val restHighLevelClient: RestHighLevelClient) {
 
     fun getAllTweets(): List<Tweet> {
         // see https://www.elastic.co/guide/en/elasticsearch/client/java-rest/6.x/java-rest-high-search.html
-        val searchRequest = SearchRequest(TweetDocument.documentIndex)
-        searchRequest.types(TweetDocument.documentType)
+        val searchRequest = SearchRequest(documentIndex)
         return restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT).hits
                 .map { Tweet(it.id, mapper.readValue(it.sourceAsString, TweetDocument::class.java).message) }
     }
@@ -60,19 +58,19 @@ class TweetRepository(private val restHighLevelClient: RestHighLevelClient) {
 
         val jsonMap = HashMap<String, Any>()
         jsonMap["message"] = tweet
-        val request = UpdateRequest(TweetDocument.documentIndex, TweetDocument.documentType, id).doc(jsonMap, XContentType.JSON)
+        val request = UpdateRequest(documentIndex, id).doc(jsonMap, XContentType.JSON)
         val updateResponse = restHighLevelClient.update(request, RequestOptions.DEFAULT)
         return updateResponse.status()
     }
 
     fun deleteTweet(id: String): RestStatus {
-        val request = DeleteRequest(TweetDocument.documentIndex, TweetDocument.documentType, id)
+        val request = DeleteRequest(documentIndex, id)
         val deleteResponse = restHighLevelClient.delete(request, RequestOptions.DEFAULT)
         return deleteResponse.status()
     }
 
     private fun tweetExists(id: String): Boolean {
-        val getRequest = GetRequest(documentIndex, documentType, id)
+        val getRequest = GetRequest(documentIndex, id)
         getRequest.fetchSourceContext(FetchSourceContext(false))
         getRequest.storedFields("_none_")
         return restHighLevelClient.exists(getRequest, RequestOptions.DEFAULT)

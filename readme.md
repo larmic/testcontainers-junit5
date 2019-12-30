@@ -9,7 +9,7 @@ Simple example demonstrating how testcontainers, Elasticsearch and JUnit 5 can p
 
 * Spring Boot 2.2.2.RELEASE
 * Kotlin 1.3.61
-* Elasticsearch 7.4.2 with [RestHighLevelClient](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
+* Elasticsearch 7.5.0 with [RestHighLevelClient](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
 * Testcontainers 1.12.4
 * JUnit 5.5.2
 
@@ -32,7 +32,7 @@ $ mvn clean verify
 
 ```ssh
 # start local elasticsearch
-$ docker run -d -p 9200:9200 -p 9300:9300 --name testcontainers-junit5-demo -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "cluster.name=elasticsearch" docker.elastic.co/elasticsearch/elasticsearch-oss:7.4.2
+$ docker run -d -p 9200:9200 -p 9300:9300 --name testcontainers-junit5-demo -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "cluster.name=elasticsearch" docker.elastic.co/elasticsearch/elasticsearch-oss:7.5.0
 
 # start application
 $ mvn spring-boot:run

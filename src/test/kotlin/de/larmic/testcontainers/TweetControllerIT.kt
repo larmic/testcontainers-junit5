@@ -51,7 +51,7 @@ class TweetControllerIT {
         restHighLevelClient.refreshIndex()
 
         val tweet = tweetRepository.getTweet(response.body!!)!!
-        assertThat(tweet.message).isEqualTo("simple tweet [break]")
+        assertThat(tweet.message).isEqualTo("simple tweet")
     }
 
     @Test

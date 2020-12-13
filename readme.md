@@ -1,6 +1,6 @@
 # Integration testing with Spring Boot, Elasticsearch, Testcontainers and JUnit5
 
-[![Build Status](https://travis-ci.org/larmic/testcontainers-junit5.svg?branch=master)](https://travis-ci.org/larmic/testcontainers-junit5)
+![Build Status](https://github.com/larmic/testcontainers-junit5/workflows/Java%20CI%20with%20Maven/badge.svg)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Simple example demonstrating how testcontainers, Elasticsearch and JUnit 5 can play together.

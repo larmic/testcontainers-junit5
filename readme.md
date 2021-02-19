@@ -8,7 +8,7 @@ Simple example demonstrating how testcontainers, Elasticsearch and JUnit 5 can p
 ## Used technologies
 
 * Spring Boot 2.4.3
-* Kotlin 1.4.21
+* Kotlin 1.4.30
 * Elasticsearch 7.10.1 with [RestHighLevelClient](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
 * Testcontainers 1.15.1
 * JUnit 5.7.0

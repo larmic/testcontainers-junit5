@@ -103,6 +103,9 @@
                 <version>${kotlin.version}</version>
                 <configuration>
                     <jvmTarget>11</jvmTarget>
+                    <args>
+                        <arg>-Xuse-ir</arg>
+                    </args>
                 </configuration>
                 <executions>
                     <execution>

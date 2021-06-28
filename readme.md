@@ -1,4 +1,6 @@
-# Integration testing with Spring Boot, Elasticsearch, Testcontainers and JUnit5
+# DEPRECATED Integration testing with Spring Boot, Elasticsearch, Testcontainers and JUnit5
+
+This demo is deprecated. You can found an actual version [here](https://github.com/larmic/spring-boot-demos/tree/main/spring-boot-elasticsearch)
 
 ![Build Status](https://github.com/larmic/testcontainers-junit5/workflows/Java%20CI%20with%20Maven/badge.svg)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
